@@ -13,7 +13,7 @@ object Akka {
     ActorSystem(name, conf.config)
 
   def blockingDispatcher(implicit system: ActorSystem): MessageDispatcher =
-    dispatcher("test-blocking-dispatcher")
+    dispatcher("$short_name;format="normalize"$-blocking-dispatcher")
 
   def dispatcher(name: String)(implicit system: ActorSystem): MessageDispatcher =
     system.dispatchers.lookup(name)
@@ -30,7 +30,6 @@ trait CommonActor extends Actor with ActorLogging {
   implicit val ec: ExecutionContextExecutor = context.dispatcher
   implicit val system: ActorSystem = context.system
   implicit val timeout: Timeout = 5 seconds
-
 
   override def aroundPostRestart(reason: Throwable): Unit = {
     super.aroundPostRestart(reason)
